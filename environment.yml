@@ -1,0 +1,10 @@
+name: assembly-stuff
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - megahit
+  - prokka
+  - parallel
+  - kofamscan
