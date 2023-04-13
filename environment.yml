@@ -1,10 +1,9 @@
-name: assembly-stuff
+name: demo-stuff
 channels:
   - conda-forge
   - bioconda
   - defaults
 dependencies:
   - megahit
-  - prokka
-  - parallel
+  - prodigal
   - kofamscan
