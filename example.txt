@@ -4,16 +4,19 @@ gunzip GCF_003018455.1_ASM301845v1_genomic.fna.gz
 
 ## calling genes ##
 time prodigal -i GCF_003018455.1_ASM301845v1_genomic.fna -a genes.faa -o genes.gff
+    # takes about 20 seconds
 
 ## getting refs for kofamscan ##
 curl -L -o profiles.tar.gz https://figshare.com/ndownloader/files/40158085
 tar -xf profiles.tar.gz
 
 ## running kofamscan ##
-time exec_annotation -p profiles/ -k profiles/sub-ko-list.tsv --cpu 2 -f detail-tsv -o kofamscan-out.tsv genes.faa
+time exec_annotation -p profiles/ -k profiles/sub-ko-list.tsv --cpu 4 -f detail-tsv -o kofamscan-out.tsv genes.faa
+    # takes about a minute
 
 # that output table holds insignificant hits too, sig ones have an * in the first column
 # here's one way to make a table of just significant hits
+    # this is grabbing only those that start with an *, then cutting out the gene ID, KO ID, and KO def columns
 grep "^\*" kofamscan-out.tsv | cut -f 2,3,7 > kofamscan-sig-only.tsv
 
 head kofamscan-sig-only.tsv
