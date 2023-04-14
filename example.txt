@@ -12,9 +12,11 @@ tar -xf profiles.tar.gz
 
 ## running kofamscan ##
 time exec_annotation -p profiles/ -k profiles/sub-ko-list.tsv --cpu 4 -f detail-tsv -o kofamscan-out.tsv genes.faa
-    # takes about a minute
+    # takes about 2 minutes
 
 # that output table holds insignificant hits too, sig ones have an * in the first column
+head kofamscan-out.tsv
+
 # here's one way to make a table of just significant hits
     # this is grabbing only those that start with an *, then cutting out the gene ID, KO ID, and KO def columns
 grep "^\*" kofamscan-out.tsv | cut -f 2,3,7 > kofamscan-sig-only.tsv
