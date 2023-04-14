@@ -1,0 +1,19 @@
+## getting demo genome ##
+curl -LO https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/003/018/455/GCF_003018455.1_ASM301845v1/GCF_003018455.1_ASM301845v1_genomic.fna.gz
+gunzip GCF_003018455.1_ASM301845v1_genomic.fna.gz
+
+## calling genes ##
+time prodigal -i GCF_003018455.1_ASM301845v1_genomic.fna -a genes.faa -o genes.gff
+
+## getting refs for kofamscan ##
+curl -L -o profiles.tar.gz https://figshare.com/ndownloader/files/40158085
+tar -xf profiles.tar.gz
+
+## running kofamscan ##
+time exec_annotation -p profiles/ -k profiles/sub-ko-list.tsv --cpu 2 -f detail-tsv -o kofamscan-out.tsv genes.faa
+
+# that output table holds insignificant hits too, sig ones have an * in the first column
+# here's one way to make a table of just significant hits
+grep "^\*" kofamscan-out.tsv | cut -f 2,3,7 > kofamscan-sig-only.tsv
+
+head kofamscan-sig-only.tsv
